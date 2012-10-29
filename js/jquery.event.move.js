@@ -203,9 +203,9 @@
 			target: e.target,
 			startX: e.pageX,
 			startY: e.pageY,
-			timeStamp: e.timeStamp
+			timeStamp: (typeof(e.timeStamp) == 'undefined' ) ? new Date().getTime() : e.timeStamp
 		};
-
+		
 		add(document, mouseevents.move, mousemove, data);
 		add(document, mouseevents.cancel, mouseend, data);
 	}
@@ -241,9 +241,11 @@
 			target: touch.target,
 			startX: touch.pageX,
 			startY: touch.pageY,
-			timeStamp: e.timeStamp,
+			timeStamp: ((typeof(e.timeStamp) == 'undefined' ) ? new Date().getTime() : e.timeStamp),
 			identifier: touch.identifier
 		};
+
+		//console.log(template.timeStamp);
 
 		// Use the touch identifier as a namespace, so that we can later
 		// remove handlers pertaining only to this touch.
@@ -302,7 +304,7 @@
 		    touches, time;
 
 		touches = e.targetTouches;
-		time = e.timeStamp - template.timeStamp;
+		time = ((typeof(e.timeStamp) == 'undefined' ) ? new Date().getTime() : e.timeStamp) - template.timeStamp;
 
 		// Create a movestart object with some special properties that
 		// are passed only to the movestart handlers.
@@ -344,7 +346,7 @@
 		var event = e.data.event,
 		    timer = e.data.timer;
 
-		updateEvent(event, e, e.timeStamp, timer);
+		updateEvent(event, e, ((typeof(e.timeStamp) == 'undefined' ) ? new Date().getTime() : e.timeStamp), timer);
 	}
 
 	function activeMouseend(e) {
@@ -378,7 +380,7 @@
 		e.preventDefault();
 
 		event.targetTouches = e.targetTouches;
-		updateEvent(event, touch, e.timeStamp, timer);
+		updateEvent(event, touch, ((typeof(e.timeStamp) == 'undefined' ) ? new Date().getTime() : e.timeStamp), timer);
 	}
 
 	function activeTouchend(e) {
